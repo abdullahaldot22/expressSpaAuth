@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css" integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Igloo</title>
+
+    <script>
+        let data         = {};
+            data.data    = JSON.parse('{{DATA}}');
+            data.error   = JSON.parse('{{ERROR}}');
+            data.message = JSON.parse('{{MESSAGE}}');
+    </script>
+</head>
+<body>
+    <section class="wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="w-full d-flex align-items-center justify-content-center" style="height: 100vh;">
+                        <div class="card text-center">
+                            <div class="card-header fs-3">
+                                Sign UP
+                            </div>
+                            <div class="card-body" style="width: 550px;">
+                                <form action="/register" method="post" class="text-start">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" name="name" class="form-control" id="name" placeholder="name unknown">
+                                        <span class="text-danger fw-bold" style="font-size: small;">
+                                            <script>document.write(data.error.name ?? '')</script>
+                                        </span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="phone" class="form-label">Phone Number</label>
+                                        <input type="text" name="phone" class="form-control" id="phone" placeholder="0123456789">
+                                        <span class="text-danger fw-bold" style="font-size: small;">
+                                            <script>document.write(data.error.phone ?? '')</script>
+                                        </span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email address</label>
+                                        <input type="email" name="email" class="form-control" id="email" placeholder="name@example.com">
+                                        <span class="text-danger fw-bold" style="font-size: small;">
+                                            <script>document.write(data.error.email ?? '')</script>
+                                        </span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="password" name="password" class="form-control" id="password" placeholder="********">
+                                        <span class="text-danger fw-bold" style="font-size: small;">
+                                            <script>document.write(data.error.password ?? '')</script>
+                                        </span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="confirm_password" class="form-label">Confirm Password</label>
+                                        <input type="password" name="confirm_password" class="form-control" id="confirm_password" placeholder="********">
+                                        <span class="text-danger fw-bold" style="font-size: small;">
+                                            <script>document.write(data.error.confirm_password ?? '')</script>
+                                        </span>
+                                    </div>
+                                    <button type="submit" class="btn btn-dark mt-2 w-100">Submit</button>
+                                </form>
+                                <p class="mt-4" style="font-size: small;">Already have an account. Please <a href="/">Log In</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/js/bootstrap.bundle.min.js" integrity="sha512-HvOjJrdwNpDbkGJIG2ZNqDlVqMo77qbs4Me4cah0HoDrfhrbA+8SBlZn1KrvAQw7cILLPFJvdwIgphzQmMm+Pw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>

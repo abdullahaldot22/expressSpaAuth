@@ -1,0 +1,89 @@
+ <section>
+        <div class="wrapper mt-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card text-center">
+                            <div class="card-header fs-4">
+                                Product Create
+                            </div>
+                            <div class="card-body">
+                                <form action="" method="post" id="formFragment" class="text-start row">
+                                    <div class="col-lg-6 mb-3">
+                                        <label for="name" class="form-label">Name</label>
+                                        <input type="text" name="name" class="form-control" id="name" placeholder="" value="">
+                                        <span class="text-danger fw-bold" id="name_error" style="font-size: small;"></span>
+                                    </div>
+                                    <div class="col-lg-6 mb-3">
+                                        <label for="category_name" class="form-label">Category Name</label>
+                                        <input type="text" name="category_name" class="form-control" id="category_name" placeholder="" value="">
+                                        <span class="text-danger fw-bold" id="category_name_error" style="font-size: small;"></span>
+                                    </div>
+                                    <div class="col-lg-6 mb-3">
+                                        <label for="price" class="form-label">Price</label>
+                                        <input type="text" name="price" class="form-control" id="price" placeholder="" value="">
+                                        <span class="text-danger fw-bold" id="price_error" style="font-size: small;"></span>
+                                    </div>
+                                    <div class="col-lg-6 mb-3">
+                                        <label for="status" class="form-label">Status</label>
+                                        <div class="input-group">
+                                            <select class="form-select" name="status" id="status" aria-label="Example select with button addon">
+                                                <option selected value="">Choose...</option>
+                                            </select>
+                                        </div>
+                                        <span class="text-danger fw-bold" id="status_error" style="font-size: small;"></span>
+                                    </div>
+                                    <div class="col-lg-12 mb-3 pt-3">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" name="description" placeholder="Leave a comment here" id="description" style="height: 100px"></textarea>
+                                            <label for="description">Your Product Description</label>
+                                        </div>
+                                        <span class="text-danger fw-bold" id="description_error" style="font-size: small;"></span>
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <button type="submit" class="btn btn-dark mt-2 w-100">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<script>
+    function initProductEdit(data, test) {
+        const dropdown = document.getElementById('status');
+
+        // document.getElementById('formFragment').action = "/" + data.data.formData.id;
+
+        document.getElementById('name').value            = data.data.formData.name ?? "";
+        document.getElementById('category_name').value   = data.data.formData.category_name ?? "";
+        document.getElementById('description').innerText = data.data.formData.description ?? "";
+        document.getElementById('price').value           = data.data.formData.price ?? "";
+
+        if (dropdown) {
+            Object.entries(data.data.statusEnum).forEach(([status, count]) => {
+                const newOption = document.createElement('option');
+                newOption.value = count; 
+                newOption.textContent = `${status}`;
+                if (count == data.data.formData.status) {
+                    newOption.selected = true;
+                }
+                dropdown.appendChild(newOption);
+            });
+        } else {
+            console.error("The dropdown element was not found.");
+        }
+
+        if(data.error) {
+            document.getElementById('name_error').innerText          = data.error.name ?? "";
+            document.getElementById('category_name_error').innerText = data.error.category_name ?? "";
+            document.getElementById('description_error').innerText   = data.error.description ?? "";
+            document.getElementById('price_error').innerText         = data.error.price ?? "";
+            document.getElementById('status_error').innerText        = data.error.status ?? "";
+        }
+    }
+</script>

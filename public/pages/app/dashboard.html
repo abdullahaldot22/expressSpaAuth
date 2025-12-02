@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/css/bootstrap.min.css" integrity="sha512-2bBQCjcnw658Lho4nlXJcc6WkV/UxpE/sAokbXPxQNGqmNdQrWqtw26Ns9kFF/yG792pKR1Sx8/Y1Lf1XN4GKA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="/js/app/componetnHelper.js"></script>
+    <title>Igloo</title>
+
+    <script>
+        let data           = {};
+            data.auth      = JSON.parse('{{AUTHINFO}}');
+            data.component = JSON.parse('{{COMPONENT}}');
+            data.data      = JSON.parse('{{DATA}}');
+            data.error     = JSON.parse('{{ERROR}}');
+            data.message   = JSON.parse('{{MESSAGE}}');
+
+    </script>
+</head>
+<body>
+    <div id="nav_section"></div>
+
+    <section id="default_section">
+        <div class="wrapper mt-5">
+            <div class="container">
+                <div class="card">
+                    <div class="card-header">
+                        Auth
+                    </div>
+                    <div class="card-body">
+                        Welcome <span id="auth_name"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="route_view"></div>
+
+    <script>
+        document.getElementById('auth_name').innerText = data.auth.name;
+        
+        loadComponentAndInject(data, "layout/nav", "nav_section");
+        const defaultComponent = document.getElementById('default_section');
+        defaultComponent.style.display = "none";
+        if (data.component.path !== undefined) {
+            loadComponentAndInject(data, data.component.path, "route_view");
+        } else {
+            defaultComponent.style.display = "block";
+        }
+
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/js/bootstrap.bundle.min.js" integrity="sha512-HvOjJrdwNpDbkGJIG2ZNqDlVqMo77qbs4Me4cah0HoDrfhrbA+8SBlZn1KrvAQw7cILLPFJvdwIgphzQmMm+Pw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</body>
+</html>
