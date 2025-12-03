@@ -48,7 +48,7 @@
                 <td>${item.category_name}</td>
                 <td>${item.price}</td>
                 <td>${item.description.length > 20 ? item.description.substring(0, 20) + "..." : item.description}</td>
-                <td>${item.status}</td>
+                <td>${item.status == data.data.statusEnum.ACTIVE ? "Active" : "Inactive"}</td>
                 <td title="${item.creator_email}">${item.creator_name}</td>
                 <td>
                     <div class="input-group">

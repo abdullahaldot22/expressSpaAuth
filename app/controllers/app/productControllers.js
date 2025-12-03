@@ -7,9 +7,9 @@ const { unique, uniqueExcept }                              = require("../../lib
 const productPageHandler = async (req, res) => {
     try {
         let products = await db('products as p').select('p.*', 'u.name as creator_name', 'u.email as creator_email').join('users as u', 'p.creator_id', '=', 'u.id');
-
+        let statusEnum = Status;
         return redirectToAuth(req, res, "app/dashboard", {
-            data : { products : products },
+            data : { products : products, statusEnum : statusEnum },
             component : { path : "product/productList" }
         })
     } catch (err) {
@@ -82,10 +82,10 @@ const productStoreHandler = async (req, res) => {
         });
         
         let products = await db('products as p').select('p.*', 'u.name as creator_name', 'u.email as creator_email').join('users as u', 'p.creator_id', '=', 'u.id');
-
+        let statusEnum = Status;
         return redirectToAuth(req, res, "app/dashboard", {
             component: { path : "product/productList" },
-            data     : {products : products},
+            data     : {products : products, statusEnum : statusEnum},
             message  : "Product Created Successfully"
         });
 
@@ -172,12 +172,12 @@ const productUpdateHandler = async (req, res) => {
             description  : req.body.description,
             updated_at   : new Date(),
         });
-        
+        let statusEnum = Status;
         let products = await db('products as p').select('p.*', 'u.name as creator_name', 'u.email as creator_email').join('users as u', 'p.creator_id', '=', 'u.id');
 
         return redirectToAuth(req, res, "app/dashboard", {
             component: { path : "product/productList" },
-            data     : {products : products},
+            data     : {products : products, statusEnum : statusEnum},
             message  : "Product Updated Successfully"
         });
 
@@ -204,9 +204,9 @@ const productDeleteHandler = async (req, res) => {
     try {
         await db('products').where('id', req.params.id).del();
         let products = await db('products as p').select('p.*', 'u.name as creator_name', 'u.email as creator_email').join('users as u', 'p.creator_id', '=', 'u.id');
-
+        let statusEnum = Status;
         return redirectToAuth(req, res, "app/dashboard", {
-            data : { products : products },
+            data : { products : products, statusEnum : statusEnum },
             component : { path : "product/productList" },
             message : "Product deleted successfully."
         })
