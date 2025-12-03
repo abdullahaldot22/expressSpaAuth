@@ -16,7 +16,7 @@ function pagePath(relativePath) {
     return path.join(__dirname, "../../public/pages", relativePath);
 }
 
-function redirectTo(res, file, data = null) {
+function redirectTo(req, res, file, data = {}) {
     if (!res) throw new Error("Express response object 'res' is required");
     const filePath = path.resolve(pagePath(file));
     let html;
@@ -27,7 +27,10 @@ function redirectTo(res, file, data = null) {
         return res.status(404).send("Page not found");
     } 
     
-    if (data !== null) {
+    data.data            = data.data || {};
+    data.data.csrf_token = req.csrfToken();
+
+    // if (data !== null) {
         let keys = ['message', 'data', 'error'];
         for (let i = 0; i < keys.length; i++) {
             if (data[keys[i]] !== null && data[keys[i]] !== undefined) {
@@ -60,15 +63,15 @@ function redirectTo(res, file, data = null) {
                 }
             }
         };
-    } else {
-        html = html.replace(/{{MESSAGE}}/g, "{}")
-        html = html.replace(/{{DATA}}/g, "{}")
-        html = html.replace(/{{ERROR}}/g, "{}" ) 
-    }
+    // } else {
+    //     html = html.replace(/{{MESSAGE}}/g, "{}")
+    //     html = html.replace(/{{DATA}}/g, "{}")
+    //     html = html.replace(/{{ERROR}}/g, "{}" ) 
+    // }
     res.type("html").send(html);
 }
 
-function redirectToAuth(req, res, file, data = null) {
+function redirectToAuth(req, res, file, data = {}) {
     if (!res) throw new Error("Express response object 'res' is required");
     if (!req) throw new Error("Express response object 'req' is required");
     const filePath = path.resolve(pagePath(file));
@@ -80,9 +83,11 @@ function redirectToAuth(req, res, file, data = null) {
         return res.status(404).send("Page not found");
     } 
 
+    data.data            = data.data || {};
+    data.data.csrf_token = req.csrfToken();
     html = html.replace(/{{AUTHINFO}}/g, JSON.stringify(req.user))
     
-    if (data !== null) {
+    // if (data !== null) {
         let keys = ['message', 'data', 'error', 'component'];
         for (let i = 0; i < keys.length; i++) {
             if (data[keys[i]] !== null && data[keys[i]] !== undefined) {
@@ -121,12 +126,12 @@ function redirectToAuth(req, res, file, data = null) {
                 }
             }
         };
-    } else {
-        html = html.replace(/{{COMPONENT}}/g, "{}" ) 
-        html = html.replace(/{{MESSAGE}}/g, "{}")
-        html = html.replace(/{{DATA}}/g, "{}")
-        html = html.replace(/{{ERROR}}/g, "{}" ) 
-    }
+    // } else {
+    //     html = html.replace(/{{COMPONENT}}/g, "{}" ) 
+    //     html = html.replace(/{{MESSAGE}}/g, "{}")
+    //     html = html.replace(/{{DATA}}/g, "{}")
+    //     html = html.replace(/{{ERROR}}/g, "{}" ) 
+    // }
     res.type("html").send(html);
 }
 

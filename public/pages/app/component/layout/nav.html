@@ -42,6 +42,7 @@
                         <li>
                             <!-- <div class="dropdown-item"> -->
                             <form method="POST" action="/logout">
+                                <input type="hidden" name="_csrf" value="" id="csrf">
                                 <input type="hidden" id="auth_email_input" name="email" value="">
                                 <button type="submit" class="dropdown-item">Log OUT</button>
                             </form>
@@ -56,6 +57,7 @@
 
 <script>
     function initNav(data, test) {
+        document.getElementById("csrf").value = data.data.csrf_token;
         document.getElementById('auth_email_input').value = data.auth.email;
         document.getElementById('auth_name').innerText = data.auth.name;
         document.getElementById('auth_namei').innerText = data.auth.name;

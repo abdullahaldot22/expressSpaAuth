@@ -66,7 +66,7 @@ const productStoreHandler = async (req, res) => {
                 'string.max'  : 'Description should have a maximum length of 500 characters.',
                 'any.required': 'Description is required.'
             })
-    });
+    }).unknown(true);
 
     try {
         await productSchema.validateAsync(req.body, { abortEarly: false });
@@ -159,7 +159,7 @@ const productUpdateHandler = async (req, res) => {
                 'string.max'  : 'Description should have a maximum length of 500 characters.',
                 'any.required': 'Description is required.'
             })
-    });
+    }).unknown(true);
 
     try {
         await productSchema.validateAsync(req.body, { abortEarly: false });

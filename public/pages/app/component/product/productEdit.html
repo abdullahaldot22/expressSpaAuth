@@ -9,6 +9,7 @@
                             </div>
                             <div class="card-body">
                                 <form action="" method="post" id="formFragment" class="text-start row">
+                                    <input type="hidden" name="_csrf" value="" id="csrf_token">
                                     <div class="col-lg-6 mb-3">
                                         <label for="name" class="form-label">Name</label>
                                         <input type="text" name="name" class="form-control" id="name" placeholder="" value="">
@@ -56,7 +57,6 @@
 <script>
     function initProductEdit(data, test) {
         const dropdown = document.getElementById('status');
-
         // document.getElementById('formFragment').action = "/" + data.data.formData.id;
 
         document.getElementById('name').value            = data.data.formData.name ?? "";
@@ -77,6 +77,8 @@
         } else {
             console.error("The dropdown element was not found.");
         }
+        document.getElementById("csrf_token").value = data.data.csrf_token;
+
 
         if(data.error) {
             document.getElementById('name_error').innerText          = data.error.name ?? "";

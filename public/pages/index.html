@@ -11,7 +11,6 @@
             data.data    = JSON.parse('{{DATA}}');
             data.error   = JSON.parse('{{ERROR}}');
             data.message = JSON.parse('{{MESSAGE}}');
-
     </script>
 </head>
 <body>
@@ -26,6 +25,7 @@
                             </div>
                             <div class="card-body" style="width: 550px;">
                                 <form action="/login" method="post" class="text-start">
+                                    <input type="hidden" name="_csrf" value="" id="csrf">
                                     <div class="mb-3">
                                         <label for="email" class="form-label">Email address</label>
                                         <input type="email" name="email" class="form-control" id="email" placeholder="name@example.com">
@@ -52,6 +52,9 @@
         </div>
     </section>
 
+    <script>
+        document.getElementById("csrf").value = data.data.csrf_token;
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.8/js/bootstrap.bundle.min.js" integrity="sha512-HvOjJrdwNpDbkGJIG2ZNqDlVqMo77qbs4Me4cah0HoDrfhrbA+8SBlZn1KrvAQw7cILLPFJvdwIgphzQmMm+Pw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 </html>

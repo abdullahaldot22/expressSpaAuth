@@ -7,7 +7,7 @@ const Joi                                                                       
 const db                                                                               = require("../libries/mysqlORM");
 
 const homePageHandler = (req, res) => {
-    return redirectTo(res, 'index');
+    return redirectTo(req, res, 'index');
 }
 
 const loginUserHandler = async (req, res) => {
@@ -23,19 +23,19 @@ const loginUserHandler = async (req, res) => {
             "string.empty": "Password field is required",
             "string.min": "Password must be at least {#limit} characters long."
         })
-    });
+    }).unknown(true);
 
     try {
         await schema.validateAsync(req.body, { abortEarly: false });
         let user = await db('users').where({ email : req.body.email }).first();
         if (!user) {
-            return redirectTo(res, "index", {
+            return redirectTo(req, res, "index", {
                 message : { message : "No user found" }
             })
         } else {
             let passMatch = await comparePassword(req.body.password, user.password);
             if (!passMatch) {
-                return redirectTo(res, "index", {
+                return redirectTo(req, res, "index", {
                     message : { message : "Password Mismatch" }
                 })
             } else {
@@ -56,11 +56,11 @@ const loginUserHandler = async (req, res) => {
 
     } catch (err) {
         if (err.isJoi) {
-            return redirectTo(res, "index", {
+            return redirectTo(req, res, "index", {
                 error : mapJoiErrorsByField(err)
             });
         }
-        return redirectTo(res, "index", {
+        return redirectTo(req, res, "index", {
             error : err
         });
     }
@@ -77,9 +77,8 @@ async function comparePassword(plaintextPassword, storedHash) {
 }
 
 const registerPageHandler = async (req, res) => {
-    const users = await query("SELECT * FROM users");
-    return redirectTo(res, "auth/register", {
-        data : users
+    return redirectTo(req, res, "auth/register", {
+        data : {users : ''}
     });
 };
 
@@ -110,7 +109,7 @@ const registerUserHandler = async (req, res) => {
             "string.empty": "Confirm Password field is required",
             "any.only": "Confirmation password does not match the password."
         })
-    });
+    }).unknown(true);
 
     try {
         await schema.validateAsync(req.body, { abortEarly: false });
@@ -138,11 +137,11 @@ const registerUserHandler = async (req, res) => {
 
     } catch (err) {
         if (err.isJoi) {
-            return redirectTo(res, "auth/register", {
+            return redirectTo(req, res, "auth/register", {
                 error : mapJoiErrorsByField(err)
             });
         }
-        return redirectTo(res, "auth/register", {
+        return redirectTo(req, res, "auth/register", {
             error : err
         });
     }
